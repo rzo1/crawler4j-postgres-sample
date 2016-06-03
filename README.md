@@ -1,2 +1,8 @@
 # crawler4j-postgres-sample
-a little sample to use plain JDBC in order to store crawled data into a PostgreSQL database
+This is a very simple example how crawler4j can be used to store crawled text material in a PostgreSQL database.
+
+Technology involved:
+
+* [crawler4j](https://github.com/yasserg/crawler4j)
+* [PostgreSQL](https://www.postgresql.org/)
+* [c3p0](http://www.mchange.com/projects/c3p0/) - Connection Pool

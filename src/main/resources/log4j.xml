@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM
+        "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} %-5p [%t] %c{1} (%L): %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="com.github.rzo1">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="com.mchange">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.apache.http.client.protocol">
+        <level value="ERROR"/>
+    </logger>
+
+    <root>
+        <level value="WARN"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</log4j:configuration>
