@@ -32,8 +32,9 @@ public class PostgresDBServiceImpl implements PostgresDBService {
 
     private void createDatabase() throws SQLException {
 
+        ///XXX should be done via DDL script
         comboPooledDataSource.getConnection().createStatement().executeUpdate(
-                "CREATE SEQUENCE IF NOT EXISTS id_master_seq" +
+                "CREATE SEQUENCE id_master_seq" +
                         "  INCREMENT 1" +
                         "  MINVALUE 1 " +
                         "  MAXVALUE 9223372036854775807" +
@@ -41,7 +42,7 @@ public class PostgresDBServiceImpl implements PostgresDBService {
                         "  CACHE 1;")
         ;
         comboPooledDataSource.getConnection().createStatement().executeUpdate(
-                "CREATE TABLE IF NOT EXISTS webpage" +
+                "CREATE TABLE webpage" +
                         " ( " +
                         "  id bigint NOT NULL," +
                         "  html TEXT," +
