@@ -21,10 +21,10 @@
         <java.target>1.8</java.target>
 
         <!-- 3rd party libs -->
-        <postgresql.version>9.4.1208</postgresql.version>
+        <postgresql.version>9.4.1212</postgresql.version>
         <crawler4j.version>4.2</crawler4j.version>
         <c3p0.version>0.9.5.2</c3p0.version>
-        <slf4j.version>1.7.10</slf4j.version>
+        <slf4j.version>1.7.22</slf4j.version>
         <log4j.version>1.2.16</log4j.version>
     </properties>
 
