@@ -10,13 +10,20 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class SampleLauncher {
 
     public static void main(String[] args) throws Exception {
-        String crawlStorageFolder = "/data/crawl/root";
-        int numberOfCrawlers = 7;
+
+        String crawlStorageFolder = args[0];
+        String jdbc = args[1];
+        String user = args[2];
+        String pw = args[3];
+        int numberOfCrawlers = Integer.parseInt(args[4]);
+
+
 
         CrawlConfig config = new CrawlConfig();
 
-        config.setPolitenessDelay(100);
+        config.setPolitenessDelay(800);
 
+        config.setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36");
         config.setCrawlStorageFolder(crawlStorageFolder);
 
         /*
@@ -24,6 +31,7 @@ public class SampleLauncher {
          */
         PageFetcher pageFetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+        robotstxtConfig.setEnabled(false);
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
         CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
@@ -32,18 +40,14 @@ public class SampleLauncher {
          * URLs that are fetched and then the crawler starts following links
          * which are found in these pages
          */
-        controller.addSeed("https://de.wikipedia.org/wiki/Java_Database_Connectivity");
-        controller.addSeed("https://de.wikipedia.org/wiki/Relationale_Datenbank");
-        controller.addSeed("https://pt.wikipedia.org/wiki/JDBC");
-        controller.addSeed("https://pt.wikipedia.org/wiki/Protocolo");
-        controller.addSeed("https://de.wikipedia.org/wiki/Datenbank");
+        controller.addSeed("https://www.gesundheitsinformation.de/");
 
         /*
          * Start the crawl. This is a blocking operation, meaning that your code
          * will reach the line after this only when crawling is finished.
          */
 
-        controller.start(new PostgresCrawlerFactory("jdbc:postgresql://localhost/crawler4j","postgres","postgres"), numberOfCrawlers);
+        controller.start(new PostgresCrawlerFactory(jdbc, user, pw), numberOfCrawlers);
     }
 
 }

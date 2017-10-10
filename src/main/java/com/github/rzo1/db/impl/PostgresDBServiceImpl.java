@@ -33,24 +33,24 @@ public class PostgresDBServiceImpl implements PostgresDBService {
     private void createDatabase() throws SQLException {
 
         ///XXX should be done via DDL script
-        comboPooledDataSource.getConnection().createStatement().executeUpdate(
-                "CREATE SEQUENCE id_master_seq" +
-                        "  INCREMENT 1" +
-                        "  MINVALUE 1 " +
-                        "  MAXVALUE 9223372036854775807" +
-                        "  START 6 " +
-                        "  CACHE 1;")
-        ;
-        comboPooledDataSource.getConnection().createStatement().executeUpdate(
-                "CREATE TABLE webpage" +
-                        " ( " +
-                        "  id bigint NOT NULL," +
-                        "  html TEXT," +
-                        "  text TEXT," +
-                        "  url varchar(4096)," +
-                        "  seen timestamp without time zone NOT NULL," +
-                        "  primary key (id)" +
-                        ")");
+//        comboPooledDataSource.getConnection().createStatement().executeUpdate(
+//                "CREATE SEQUENCE id_master_seq" +
+//                        "  INCREMENT 1" +
+//                        "  MINVALUE 1 " +
+//                        "  MAXVALUE 9223372036854775807" +
+//                        "  START 6 " +
+//                        "  CACHE 1;")
+//        ;
+//        comboPooledDataSource.getConnection().createStatement().executeUpdate(
+//                "CREATE TABLE webpage" +
+//                        " ( " +
+//                        "  id bigint NOT NULL," +
+//                        "  html TEXT," +
+//                        "  text TEXT," +
+//                        "  url varchar(4096)," +
+//                        "  seen timestamp without time zone NOT NULL," +
+//                        "  primary key (id)" +
+//                        ")");
 
         insertKeyStatement = comboPooledDataSource.getConnection().prepareStatement("insert into webpage values " +
                 "(nextval('id_master_seq'),?,?,?,?)");

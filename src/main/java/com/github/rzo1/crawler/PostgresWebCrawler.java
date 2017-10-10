@@ -7,7 +7,6 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import org.slf4j.Logger;
 
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class PostgresWebCrawler extends WebCrawler {
@@ -35,7 +34,15 @@ public class PostgresWebCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
-        return !FILE_ENDING_EXCLUSION_PATTERN.matcher(href).matches();
+
+        if (!FILE_ENDING_EXCLUSION_PATTERN.matcher(href).matches()) {
+            if (href.startsWith("https://www.gesundheitsinformation.de") && href.endsWith(".html")) {
+                return true;
+            }
+        }
+
+
+        return false; //href.startsWith("http://www.ics.uci.edu/");
     }
 
     @Override
@@ -44,15 +51,6 @@ public class PostgresWebCrawler extends WebCrawler {
         logger.info("URL: " + url);
 
         if (page.getParseData() instanceof HtmlParseData) {
-            HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-            String text = htmlParseData.getText();
-            String html = htmlParseData.getHtml();
-            Set<WebURL> links = htmlParseData.getOutgoingUrls();
-
-            logger.info("Text length: " + text.length());
-            logger.info("Html length: " + html.length());
-            logger.info("Number of outgoing links: " + links.size());
-
             try {
                 postgresDBService.store(page);
             } catch (RuntimeException e) {
