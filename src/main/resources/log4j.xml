@@ -15,6 +15,10 @@
         <level value="INFO"/>
     </logger>
 
+    <logger name="edu.uci.ics.crawler4j">
+        <level value="WARN"/>
+    </logger>
+
     <logger name="com.mchange">
         <level value="WARN"/>
     </logger>
