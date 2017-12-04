@@ -33,16 +33,7 @@ public class PostgresWebCrawler extends WebCrawler {
 
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
-        String href = url.getURL().toLowerCase();
-
-        if (!FILE_ENDING_EXCLUSION_PATTERN.matcher(href).matches()) {
-            if (href.startsWith("https://www.gesundheitsinformation.de") && href.endsWith(".html")) {
-                return true;
-            }
-        }
-
-
-        return false; //href.startsWith("http://www.ics.uci.edu/");
+        return true; //href.startsWith("http://www.ics.uci.edu/");
     }
 
     @Override

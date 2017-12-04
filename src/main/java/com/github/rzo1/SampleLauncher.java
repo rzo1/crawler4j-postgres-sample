@@ -6,6 +6,10 @@ import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 public class SampleLauncher {
 
@@ -25,6 +29,7 @@ public class SampleLauncher {
 
         config.setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36");
         config.setCrawlStorageFolder(crawlStorageFolder);
+        config.setMaxDepthOfCrawling(0);
 
         /*
          * Instantiate the controller for this crawl.
@@ -40,7 +45,11 @@ public class SampleLauncher {
          * URLs that are fetched and then the crawler starts following links
          * which are found in these pages
          */
-        controller.addSeed("https://www.gesundheitsinformation.de/");
+
+        for(String seed : FileUtils.readLines(new File(args[5]), StandardCharsets.UTF_8.name())) {
+            controller.addSeed(seed);
+        }
+
 
         /*
          * Start the crawl. This is a blocking operation, meaning that your code
