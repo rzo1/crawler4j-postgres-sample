@@ -22,8 +22,8 @@
 
         <!-- 3rd party libs -->
         <postgresql.version>42.1.4</postgresql.version>
-        <crawler4j.version>4.3</crawler4j.version>
-        <c3p0.version>0.9.5.2</c3p0.version>
+        <crawler4j.version>4.4.0</crawler4j.version>
+        <c3p0.version>0.9.5.4</c3p0.version>
         <slf4j.version>1.7.22</slf4j.version>
         <log4j.version>1.2.16</log4j.version>
     </properties>
