@@ -14,18 +14,20 @@
 
     <properties>
         <!-- Maven specific settings -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
-        <maven.compile.encoding>UTF-8</maven.compile.encoding>
-        <java.source>1.8</java.source>
-        <java.target>1.8</java.target>
+        <encoding>UTF-8</encoding>
+        <java.source>11</java.source>
+        <java.target>11</java.target>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.build.resourceEncoding>${encoding}</project.build.resourceEncoding>
+        <maven.compile.encoding>${encoding}</maven.compile.encoding>
+        <maven.compiler.target>${java.target}</maven.compiler.target>
 
         <!-- 3rd party libs -->
-        <postgresql.version>42.1.4</postgresql.version>
-        <crawler4j.version>4.3</crawler4j.version>
-        <c3p0.version>0.9.5.2</c3p0.version>
-        <slf4j.version>1.7.22</slf4j.version>
-        <log4j.version>1.2.16</log4j.version>
+        <postgresql.version>42.2.11</postgresql.version>
+        <crawler4j.version>4.4.0</crawler4j.version>
+        <c3p0.version>0.9.5.5</c3p0.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencies>
@@ -79,7 +81,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.7.0</version>
+                    <version>3.8.1</version>
                     <configuration>
                         <source>${java.source}</source>
                         <target>${java.target}</target>
@@ -92,7 +94,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>3.2.0</version>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
@@ -102,24 +104,33 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
-                        <links>
-                            <link>http://docs.oracle.com/javase/8/docs/api/</link>
-                        </links>
+                        <!-- workaround for https://bugs.openjdk.java.net/browse/JDK-8212233 -->
+                        <javaApiLinks>
+                            <property>
+                                <name>foo</name>
+                                <value>bar</value>
+                            </property>
+                        </javaApiLinks>
+                        <!--                        <links>-->
+                        <!--                            <link>http://docs.oracle.com/javase/10/docs/api/</link>-->
+                        <!--                        </links>-->
+                        <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                         <encoding>utf-8</encoding>
                         <show>public</show>
+                        <detectLinks>false</detectLinks>
+                        <detectOfflineLinks>true</detectOfflineLinks>
+                        <detectJavaApiLink>false</detectJavaApiLink>
                         <!-- Speeds up the build of the javadocs -->
                         <quiet>true</quiet>
                         <use>false</use>
-                        <!--
-                        Use this in JDK 8 environment to skip hard java doc syntax check.-->
-                        <additionalparam>-Xdoclint:none</additionalparam>
+                        <doclint>none</doclint>
+                        <additionalJOption>-html5</additionalJOption>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.20.1</version>
+                    <version>3.0.0-M4</version>
                     <configuration>
                         <argLine>-Xmx512m -XX:+CMSClassUnloadingEnabled -Dfile.encoding=UTF-8
                         </argLine>
@@ -132,14 +143,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.source}</source>
+                    <target>${java.target}</target>
+                    <encoding>${encoding}</encoding>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.3</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -183,4 +195,33 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>version-check</id>
+            <properties>
+                <minimum.maven.version>3.6.0</minimum.maven.version>
+                <!-- Maven Range Syntax -->
+                <required.maven.version>[${minimum.maven.version},)</required.maven.version>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.7</version>
+                        <executions>
+                            <execution>
+                                <id>show-updates</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>display-plugin-updates</goal>
+                                    <goal>display-dependency-updates</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
