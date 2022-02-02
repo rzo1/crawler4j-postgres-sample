@@ -23,7 +23,7 @@
         <maven.compiler.target>${java.target}</maven.compiler.target>
 
         <!-- 3rd party libs -->
-        <postgresql.version>42.2.11</postgresql.version>
+        <postgresql.version>42.2.25</postgresql.version>
         <crawler4j.version>4.4.0</crawler4j.version>
         <c3p0.version>0.9.5.5</c3p0.version>
         <slf4j.version>1.7.21</slf4j.version>
